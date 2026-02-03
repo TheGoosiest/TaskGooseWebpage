@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TaskGoose - User Index</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+        <script>
+            async function updateUserStatus() {
+                try {
+                    const res = await fetch("/me");
+                    const data = await res.json();
+
+                    const display = document.getElementById("username");
+                    if (data.logged_in) {
+                        display.textContent = `${data.user_id}`;
+                    } else {
+                        display.textContent = "WhY aRe YoU nOt LoGgEd In?";
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch user status:", err);
+                }
+            }
+
+            // Run once on page load
+            updateUserStatus();
+            </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="navBar">
+                <a href="{{ url_for('homepage') }}" class="logo">TaskGoose</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </div>
+            <div class="leftsidebar">
+                <label for="usernameInput">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    </svg>
+                </label>
+                <p id="username" class="username"></p>
+            </div>
+        </div>
+    </body>
+</html>
